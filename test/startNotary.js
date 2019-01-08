@@ -13,7 +13,7 @@ contract('StarNotary', async (accs) => {
 
 it('can read Token name', async () => {
     instance = await StarNotary.deployed();
-    assert.equal(await instance.tokenName.call(), 'StardustToken');
+    assert.equal(await instance.name.call(), 'StardustToken');
 });
 
 it('can read Token symbol', async () => {
@@ -54,7 +54,9 @@ it('lets user1 get the funds after the sale', async () => {
     
     //let starWeiPrice = web3.utils.toWei(starPrice.toString(), 'wei')
     let starWeiPrice = web3.toWei(starPrice.toString(), 'wei')
-    let sum = web3.utils.toBN(balanceOfUser1BeforeTransaction).add(web3.utils.toBN(starWeiPrice)).toString();
+    //let sum = web3.utils.toBN(balanceOfUser1BeforeTransaction).add(web3.utils.toBN(starWeiPrice)).toString();
+    let sum = web3.toBigNumber(balanceOfUser1BeforeTransaction).add(web3.toBigNumber(starWeiPrice)).toString();
+
     assert.equal(sum, balanceOfUser1AfterTransaction);
 });
 
@@ -84,7 +86,9 @@ it('lets user2 buy a star and decreases its balance in ether', async () => {
     await instance.buyStar(starId, { from: user2, value: starPrice, gasPrice: 0 })
     var balanceAfterUser2BuysStar = await web3.eth.getBalance(user2)
 
-    let sub = web3.utils.toBN(balanceOfUser2BeforeTransaction).sub(web3.utils.toBN(balanceAfterUser2BuysStar)).toString();
+    //let sub = web3.utils.toBN(balanceOfUser2BeforeTransaction).sub(web3.utils.toBN(balanceAfterUser2BuysStar)).toString();
+    let sub = web3.toBigNumber(balanceOfUser2BeforeTransaction).sub(web3.toBigNumber(balanceAfterUser2BuysStar)).toString();
+
     //console.log(sub)
     assert.equal(sub, starPrice)
 });
